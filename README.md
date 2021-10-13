@@ -9,6 +9,7 @@ Es una API Rest simple para administrar pacientes.
 - Node.js
 - Express
 - Mongoose
+- Heroku
 
 
 # Para correr nuestro servidor vamos a tener que colocar diferentes comandos
