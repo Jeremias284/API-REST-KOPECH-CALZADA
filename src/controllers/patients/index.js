@@ -34,7 +34,32 @@ const addPatient = async (req, res) => {
     }
 };
 
+
+const deletePatientById = async (req, res) => {
+    try {
+        const response = await PatientSchema.findOneAndRemove({_id: req.params.patientId});
+        if(!response || response.length === 0) {
+            return res.status(404).json({
+                error: true,
+                message: 'patient no found'
+            })
+        }
+
+        return res.status(202).json({
+            data: response,
+            error: false
+        })
+    } catch (error) {
+        return res.status(400).json({
+            error: true,
+            message: error
+        });
+
+    }
+};
+
 module.exports = {
     getPatients,
-    addPatient
+    addPatient,
+    deletePatientById
 }

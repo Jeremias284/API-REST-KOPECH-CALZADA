@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.route('/').get(controller.getPatients);
 router.route('/').post(controller.addPatient);
+router.route('/:patientId').delete(controller.deletePatientById);
 
 module.exports = router;
