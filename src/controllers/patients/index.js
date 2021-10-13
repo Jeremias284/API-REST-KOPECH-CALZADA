@@ -15,6 +15,26 @@ const getPatients = async (req, res) => {
     }
 };
 
+const addPatient = async (req, res) => {
+    try {
+        const patient = new PatientSchema(req.body);  
+        const newPatient = await patient.save();
+
+        return res.status(201).json({
+            data: newPatient,
+            error: false  
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            error: true,
+            message: error
+        });
+        
+    }
+};
+
 module.exports = {
-    getPatients
+    getPatients,
+    addPatient
 }
