@@ -10,7 +10,7 @@ const router = require('./routes');
 
 app.use(express.json());
 app.use('/api',router);
-//Cors
+//Cors y 
 app.use(cors());
 
 //Uso del metodo de conexion de Mongoose
