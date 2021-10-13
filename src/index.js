@@ -23,7 +23,9 @@ mongoose
     console.log( `Base de datos no conectada: ${error}`)
 });
 
-
+app.get('/', (req, res) => {
+    res.send('Server ok');
+});
 
 app.listen(PORT, ()=>{
     console.log('Escuchando el ejemplo de API en',PORT );
