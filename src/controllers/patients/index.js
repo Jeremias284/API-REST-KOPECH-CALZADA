@@ -1,8 +1,10 @@
+const PatientSchema = require('../../models/patients');
+
 const getPatients = async (req, res) => {
     try {
         const response = await PatientSchema.find();
         return res.status(200).json({
-            data: 'comunicacion con paciente',
+            data: response,
             error: false
         })
     } catch (error) {
