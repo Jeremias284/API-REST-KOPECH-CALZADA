@@ -1,5 +1,6 @@
-const getPatients = (req, res) => {
+const getPatients = async (req, res) => {
     try {
+        const response = await PatientSchema.find();
         return res.status(200).json({
             data: 'comunicacion con paciente',
             error: false
