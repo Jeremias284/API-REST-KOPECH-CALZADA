@@ -17,10 +17,10 @@ app.use(cors());
 mongoose
 .connect(CONEXION_DB)
 .then(()=>{
-    console.log('Base de datos conectado')
+    console.log('Base de datos conectada')
 })
 .catch((error)=>{
-    console.log( `Base de datos no conctada: ${error}`)
+    console.log( `Base de datos no conectada: ${error}`)
 });
 
 

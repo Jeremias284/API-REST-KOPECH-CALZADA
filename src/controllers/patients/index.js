@@ -41,7 +41,7 @@ const deletePatientById = async (req, res) => {
         if(!response || response.length === 0) {
             return res.status(404).json({
                 error: true,
-                message: 'patient no found'
+                message: 'paciente no encontrado'
             })
         }
 
@@ -65,7 +65,7 @@ const getPatientById = async (req, res) => {
         if(!response || response.length === 0) {
             return res.status(404).json({
                 error: true,
-                message: 'patient no found'
+                message: 'paciente no encontrado'
             })
         }
 
