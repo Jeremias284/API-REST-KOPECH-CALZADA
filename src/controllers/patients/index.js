@@ -1,4 +1,4 @@
-const { NativeError } = require('mongoose');
+const mongoose = require('mongoose');
 const PatientSchema = require('../../models/patients');
 //ACA ESTAN LOS METODOS O ACCIONES QUE SE PODRAN UTILIZAR PARA LA GESTION DE LOS PACIENTES
 
@@ -18,7 +18,7 @@ const getPatients = async (req, res) => {
         return res.error(400).json({
             //ERROR EN TRUE PORQUE NO SE EJECUTO LA REQUEST
             error: true,
-            message: error
+            message: 'Could not get patients'
         });
     }
 };
@@ -42,7 +42,7 @@ const addPatient = async (req, res) => {
         return res.status(400).json({
             //ERROR EN TRUE PORQUE NO SE AGREGO EXITOSAMENTE
             error: true,
-            message: error
+            message: 'Could not add patient'
         });
         
     }
@@ -63,7 +63,7 @@ const updatePatientById = async (req, res) => {
         return res.status(400).json({
             //ERROR INDICANDO QUE ALGUNOS DE LOS CAMPOS DEL OBJETO ES NULO
           error: true,
-          msg: 'Missing fields to update patient',
+          message: 'Missing fields to update patient',
         });
       }
       //EL METODO FIND_ONE_AND_UPDATE BUSCA EL OBJETO QUE TENGA EL ID INDICADO
@@ -77,7 +77,7 @@ const updatePatientById = async (req, res) => {
       if (!patientUpdated || patientUpdated.length === 0) {
         return res.status(404).json({
           error: true,
-          msg: `No patients with the id ${req.params.patientId}`,
+          message: `No patients with the id ${req.params.patientId}`,
         });
       }
   
@@ -90,7 +90,7 @@ const updatePatientById = async (req, res) => {
       return res.status(400).json({
         //ERROR EN TRUE PORQUE NO SE AGREGO EXITOSAMENTE
         error: true,
-        msg: error,
+        message: 'Could not update patient',
       });
     }
   };
@@ -108,7 +108,7 @@ const deletePatientById = async (req, res) => {
                 //ERROR EN TRUE PORQUE SE CUMPLE EL 404
                 error: true,
                 //MENSAJE DE ERROR
-                message: 'paciente no encontrado'
+                message: 'Patient not found'
             })
         }
         //202 PETICION RECIBIDA
@@ -121,7 +121,7 @@ const deletePatientById = async (req, res) => {
         return res.status(400).json({
             //ERROR EN TRUE PORQUE NO SE CUMPLIO LA REQUEST
             error: true,
-            message: error
+            message: 'Could not delete patient'
         });
 
     }
@@ -139,7 +139,7 @@ const getPatientById = async (req, res) => {
                 //ERROR EN TRUE PORQUE NO SE CUMPLIO
                 error: true,
                 //MENSAJE DE ERROR
-                message: 'paciente no encontrado'
+                message: 'Could not get patient byId'
             })
         }
 
@@ -154,7 +154,7 @@ const getPatientById = async (req, res) => {
         //NO SE PUDO INTERPRETAR LA REQUEST POR ERROR DE SINTAXIS
         return res.status(400).json({
             error: true,
-            message: error
+            message: 'Could not get patient byID'
         });
         
     }

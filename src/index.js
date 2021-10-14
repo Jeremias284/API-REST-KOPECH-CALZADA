@@ -21,11 +21,11 @@ mongoose
 .connect(CONEXION_DB)
 .then(()=>{
     //INDICARA ESTE MENSAJE EN LA CONSOLA SI SE PUDO CONECTAR A LA BASE DE DATOS
-    console.log('Base de datos conectada')
+    console.log('Database connected')
 })
 .catch((error)=>{
     //INDICARA ESTE MENSAJE EN LA CONSOLA SI NO SE PUDO CONECTAR A LA BASE DE DATOS
-    console.log( `Base de datos no conectada: ${error}`)
+    console.log( `Database not connected: ${error}`)
 });
 
 //MENSAJE DE QUE SE CONECTO AL SERVIDOR CORRECTAMENTE
@@ -36,5 +36,5 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, ()=>{
     //SI LA CONEXION ES EXITOSA, MOSTRARA ESTE MENSAJE EN LA CONSOLA INDICANDO EN QUE PUERTO SE CONECTA
-    console.log('Escuchando el ejemplo de API en',PORT );
+    console.log('Listening API example in',PORT );
 });
