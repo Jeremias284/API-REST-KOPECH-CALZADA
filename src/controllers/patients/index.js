@@ -1,3 +1,4 @@
+const { NativeError } = require('mongoose');
 const PatientSchema = require('../../models/patients');
 //ACA ESTAN LOS METODOS O ACCIONES QUE SE PODRAN UTILIZAR PARA LA GESTION DE LOS PACIENTES
 
@@ -47,7 +48,55 @@ const addPatient = async (req, res) => {
     }
 };
 
+//ACTUALIZAR PACIENTE
+const updatePatientById = async (req, res) => {
+    try {
+      if (
+          //VERIFICA QUE NINGUNO DE LOS CAMPOS SEA NULO
+        req.body.name === '' ||
+        req.body.surname === '' ||
+        req.body.surname === '' ||
+        req.body.age === '' ||
+        req.body.city === '' ||
+        req.body.address === ''
+      ) {
+        return res.status(400).json({
+            //ERROR INDICANDO QUE ALGUNOS DE LOS CAMPOS DEL OBJETO ES NULO
+          error: true,
+          msg: 'Missing fields to update patient',
+        });
+      }
+      //EL METODO FIND_ONE_AND_UPDATE BUSCA EL OBJETO QUE TENGA EL ID INDICADO
+      //SE GUARDA EN CONSTANTE PARA LUEGO ENVIARLO COMO RESPUESTA
+      const patientUpdated = await PatientSchema.findOneAndUpdate(
+        { _id: req.params.patientId },
+        req.body,
+        { new: true }
+      );
+  
+      if (!patientUpdated || patientUpdated.length === 0) {
+        return res.status(404).json({
+          error: true,
+          msg: `No patients with the id ${req.params.patientId}`,
+        });
+      }
+  
+      return res.status(201).json({
+        //MODIFICACION EXITOSA, ENVIA COMO RESPUESTA LA CONSTANTE
+        data: patientUpdated,
+        error: false,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        //ERROR EN TRUE PORQUE NO SE AGREGO EXITOSAMENTE
+        error: true,
+        msg: error,
+      });
+    }
+  };
 
+
+//ELIMINAR PACIENTE POR ID
 const deletePatientById = async (req, res) => {
     try {
         //EL METODO FIND_ONE_AND_REMOVE SE USA PARA BUSCAR 1 ELEMENTO EN PARTICULAR (SEGUN ID) Y REMOVERLO ENTERO
@@ -114,6 +163,7 @@ const getPatientById = async (req, res) => {
 //EXPORTA LOS METODOS PARA PODER ACCEDER A ELLOS EN RUTAS
 module.exports = {
     getPatients,
+    updatePatientById,
     getPatientById,
     addPatient,
     deletePatientById

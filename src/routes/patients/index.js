@@ -5,6 +5,8 @@ const router = express.Router();
 
 //OBTIENE TODOS LOS ELEMENTOS DE LA COLECCION
 router.route('/').get(controller.getPatients);
+//OBTIENE UN USUARIO SEGUN ID Y LO MODIFICA
+router.route('/:patientId').put(controller.updatePatientById);
 //OBTIENE EL ELEMENTO CORRESPONDIENTE AL ID INDICADO EN LA REQUEST
 router.route('/:patientId').get(controller.getPatientById);
 //AGREGA UN ELEMENTO A LA COLECCION
