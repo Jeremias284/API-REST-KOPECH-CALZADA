@@ -14,6 +14,7 @@ const getPatients = async (req, res) => {
             //ERROR EN FALSO PORQUE SE EJECUTO CORRECTAMENTE
             error: false
         })
+      
     } catch (error) {
         return res.error(400).json({
             //ERROR EN TRUE PORQUE NO SE EJECUTO LA REQUEST
