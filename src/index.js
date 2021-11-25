@@ -10,11 +10,13 @@ const PORT = process.env.PORT || 7000;
 const app = express();
 const router = require('./routes');
 
+//PARA PERMITIR REQUESTS ENTRE ORIGENES CRUZADOS (EJ REQUESTS ENTRE LOCALHOST 5000 Y 8000)
+app.use(cors());
+
 app.use(express.json());
 app.use('',router);
 
-//PARA PERMITIR REQUESTS ENTRE ORIGENES CRUZADOS (EJ REQUESTS ENTRE LOCALHOST 5000 Y 8000)
-app.use(cors());
+
 
 //Uso del metodo de conexion de Mongoose
 mongoose
