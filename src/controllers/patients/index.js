@@ -8,46 +8,46 @@ const getPatients = async (req, res) => {
         //FIND BUSCA TODOS LOS OBJETOS DENTRO DEL ESQUEMA
         //SE GUARDA EN CONSTANTE PARA ENVIARLO COMO RESPUESTA
         const response = await PatientSchema.find();
-        return res.status(200).json({
-            //ENVIO DE LA CONSTANTE EN CASO DE OBTENER LA COLECCION DE PACIENTES
-            data: response,
-            //ERROR EN FALSO PORQUE SE EJECUTO CORRECTAMENTE
-            error: false
-        })
-      
+        
+        return res.status(200).json(response);
+        
     } catch (error) {
-        return res.error(400).json({
+        return res.error(500).json({
             //ERROR EN TRUE PORQUE NO SE EJECUTO LA REQUEST
             error: true,
-            message: 'Could not get patients'
+            message: 'internal server error'
         });
     }
 };
 
 const addPatient = async (req, res) => {
     try {
-        const patient = new PatientSchema(req.body);  
-        //EL METODO SAVE GUARDA LOS OBJETOS DEL ESQUEMA EN LA DB
-        //SE GUARDA EN CONSTANTE PARA ENVIARLO COMO RESPUESTA
-        const newPatient = await patient.save();
-
-        return res.status(201).json({
-            //ENVIO DE LA CONSTANTE EN CASO DE AGREGAR UN PACIENTE
-            data: newPatient,
-            //ERROR EN FALSO PORQUE SE EJECUTO CORRECTAMENTE
-            error: false  
-        })
-
-    } catch (error) {
-        //STATUS 400 SIGNIFICA QUE NO SE PUDO EJECUTAR LA REQUEST POR UN ERROR DE SINTAXIS
-        return res.status(400).json({
-            //ERROR EN TRUE PORQUE NO SE AGREGO EXITOSAMENTE
+        if (
+            !req.body.name ||
+            !req.body.surname ||
+            !req.body.age ||
+            !req.body.DNI ||
+            !req.body.turns ||
+            !req.body.doctor
+          ) {
+            return res.status(400).json({
+              error: true,
+              msg: 'Missing fields to create a patient',
+            });
+          }
+          const patient = new PatientSchema(req.body);
+          const newPatient = await patient.save();
+      
+          return res.status(201).json(newPatient);
+        } catch (error) {
+          return res.status(500).json({
             error: true,
-            message: 'Could not add patient'
-        });
+            msg: 'Internal Server Error',
+          });
         
     }
 };
+
 
 //ACTUALIZAR PACIENTE
 const updatePatientById = async (req, res) => {
@@ -55,11 +55,7 @@ const updatePatientById = async (req, res) => {
       if (
           //VERIFICA QUE NINGUNO DE LOS CAMPOS SEA NULO
         req.body.name === '' ||
-        req.body.surname === '' ||
-        req.body.surname === '' ||
-        req.body.age === '' ||
-        req.body.city === '' ||
-        req.body.address === ''
+        req.body.surname === '' 
       ) {
         return res.status(400).json({
             //ERROR INDICANDO QUE ALGUNOS DE LOS CAMPOS DEL OBJETO ES NULO
@@ -82,16 +78,13 @@ const updatePatientById = async (req, res) => {
         });
       }
   
-      return res.status(201).json({
-        //MODIFICACION EXITOSA, ENVIA COMO RESPUESTA LA CONSTANTE
-        data: patientUpdated,
-        error: false,
-      });
+      return res.status(201).json(patientUpdated);
+
     } catch (error) {
-      return res.status(400).json({
+      return res.status(500).json({
         //ERROR EN TRUE PORQUE NO SE AGREGO EXITOSAMENTE
         error: true,
-        message: 'Could not update patient',
+        message: 'internal server error',
       });
     }
   };
@@ -100,33 +93,25 @@ const updatePatientById = async (req, res) => {
 //ELIMINAR PACIENTE POR ID
 const deletePatientById = async (req, res) => {
     try {
-        //EL METODO FIND_ONE_AND_REMOVE SE USA PARA BUSCAR 1 ELEMENTO EN PARTICULAR (SEGUN ID) Y REMOVERLO ENTERO
-        //SE GUARDA EN CONSTANTE PARA ENVIARLO COMO RESPUESTA
-        const response = await PatientSchema.findOneAndRemove({_id: req.params.patientId});
-        if(!response || response.length === 0) {
-            //STATUS 404 SIGNIFICA QUE LA REQUEST NO ENCONTRO LO SOLICITADO
-            return res.status(404).json({
-                //ERROR EN TRUE PORQUE SE CUMPLE EL 404
-                error: true,
-                //MENSAJE DE ERROR
-                message: 'Patient not found'
-            })
-        }
-        //202 PETICION RECIBIDA
-        return res.status(202).json({
-            data: response,
-            error: false
+        const patientFound = await PatientSchema.findOneAndRemove({
+            _id: req.params.patientId,
         })
-    } catch (error) {
-        //NO SE PUDO INTERPRETAR LA REQUEST POR ERROR DE SINTAXIS
-        return res.status(400).json({
-            //ERROR EN TRUE PORQUE NO SE CUMPLIO LA REQUEST
-            error: true,
-            message: 'Could not delete patient'
-        });
 
-    }
-};
+        if (!patientFound || patientFound.length === 0) {
+            return res.status(404).json({
+              error: true,
+              msg: `No student with the id ${req.params.patientId}`,
+            });
+          }
+          return res.status(202).json(patientFound);
+        } catch (error) {
+          return res.status(500).json({
+            error: true,
+            msg: 'Internal Server Error',
+          });
+        }
+      };
+
 
 const getPatientById = async (req, res) => {
     try {
@@ -145,15 +130,12 @@ const getPatientById = async (req, res) => {
         }
 
         //PETICION EXITOSA
-        return res.status(200).json({
+        return res.status(200).json(response);
             //SI ES EXITOSO, MUESTRA LOS DATOS CONTENIDOS EN LA CONSTANTE
-            data: response,
-            error: false
-        })
 
     } catch (error) {
         //NO SE PUDO INTERPRETAR LA REQUEST POR ERROR DE SINTAXIS
-        return res.status(400).json({
+        return res.status(500).json({
             error: true,
             message: 'Could not get patient byID'
         });
