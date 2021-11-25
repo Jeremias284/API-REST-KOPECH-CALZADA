@@ -14,14 +14,27 @@ const patientSchema = new mongoose.Schema({
         type: Number, 
         required: [true, 'age is required'],
     },
-    city: {
-        type: String,
-        required: [true, 'city is required'],
+    DNI: {
+        type: Number, 
+        required: [true, 'DNI is required'],
     },
-    address: {
-        type: String,
-        required: [true, 'address is required'],
-    },  
+    turns: {
+        type: String, 
+        required: [true, 'turns is required'],
+    },
+    doctor: {
+        type: String, 
+        required: [true, 'doctor is required'],
+    },
+    
+    // city: {
+    //     type: String,
+    //     required: [true, 'city is required'],
+    // },
+    // address: {
+    //     type: String,
+    //     required: [true, 'address is required'],
+    // },  
     
     
 });

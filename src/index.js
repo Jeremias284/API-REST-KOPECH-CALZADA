@@ -11,7 +11,7 @@ const app = express();
 const router = require('./routes');
 
 app.use(express.json());
-app.use('/api',router);
+app.use('',router);
 
 //PARA PERMITIR REQUESTS ENTRE ORIGENES CRUZADOS (EJ REQUESTS ENTRE LOCALHOST 5000 Y 8000)
 app.use(cors());
