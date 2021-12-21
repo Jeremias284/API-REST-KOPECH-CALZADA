@@ -25,11 +25,7 @@ const patientSchema = new mongoose.Schema({
     doctor: {
         type: String, 
         required: [true, 'doctor is required'],
-    },
-    password: {
-        type: String,
-        required: [true, 'password is required'],
-    },    
+    },   
 });
 
 
