@@ -9,7 +9,7 @@ router.route('/').get(Controller.getAllPatients);
 router
   .route('/:id')
   .get(param('id').isMongoId(), validator, Controller.getPatientById);
-router.route('/').post(ValidateStudent, Controller.createPatient);
+router.route('/').post(Controller.createPatient);
 router
   .route('/:id')
   .delete(param('id').isMongoId(), validator, Controller.deletePatient);
