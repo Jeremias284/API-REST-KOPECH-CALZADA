@@ -1,7 +1,29 @@
 const express = require('express');
+const { body } = require('express-validator');
 const controller = require('../../controllers/patients');
 
+
 const router = express.Router();
+const { validator } = require('../../middlewares/validate');
+
+
+router
+  .route('/login')
+  .post(
+    body('name', 'Invalid name').isString().trim().notEmpty(),
+    body('password', 'Invalid password').isString().trim().notEmpty(),
+    validator,
+    controller.logIn
+  );
+router
+  .route('/')
+  .post(
+    body('name', 'Invalid name').isString().trim().notEmpty(),
+    body('password', 'Invalid password').isString().trim().notEmpty(),
+    validator,
+    controller.addPatient
+  );
+
 
 //OBTIENE TODOS LOS ELEMENTOS DE LA COLECCION
 router.route('/').get(controller.getPatients);
