@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.use('/patients',patients);
 
-router.use('/users', users);
+router.use('/users',users);
 
 module.exports = router;
 

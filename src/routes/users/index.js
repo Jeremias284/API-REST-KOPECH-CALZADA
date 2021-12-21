@@ -5,6 +5,8 @@ const usersController = require('../../controllers/users');
 const router = express.Router();
 const { validator } = require('../../middlewares/validate');
 
+router.route('/').get(usersController.getAllUsers);
+
 router
   .route('/login')
   .post(

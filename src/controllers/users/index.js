@@ -1,5 +1,19 @@
 const Users = require('../../models/users');
 
+
+const getAllUsers = async (req, res) => {
+  try {
+    const response = await Users.find();
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      msg: 'Internal Server Error',
+    });
+  }
+};
+
 const createUser = async (req, res) => {
   try {
     if (!req.body.name || !req.body.password) {
@@ -43,5 +57,6 @@ const logIn = async (req, res) => {
 module.exports = {
   createUser,
   logIn,
+  getAllUsers,
 };
 
