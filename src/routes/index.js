@@ -11,3 +11,4 @@ router.use('/patients',patients);
 router.use('/users', users);
 
 module.exports = router;
+
